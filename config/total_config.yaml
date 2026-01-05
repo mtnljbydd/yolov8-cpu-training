@@ -1,0 +1,103 @@
+# ========================= 核心说明 =========================
+# 训练环境：仅用CPU训练
+# 内存适配备注：
+# 1. training.batch: 当前值=2 | 16GB内存合理区间=2-4 | 8GB内存合理区间=1-2 | >4易导致内存不足
+# 2. training.imgsz: 当前值=640 | 合理区间=480-800（分辨率越高，内存占用越大）
+# 3. export.batch: 当前值=1 | CPU推理建议固定为1（多批次易卡顿）
+# 4. workers参数（脚本中调用）：16GB内存建议8 | 8GB内存建议4 | 取值=CPU核心数×0.8
+# ==========================================================
+
+# ========================= 数据集配置 =========================
+dataset:
+  # 类别字典：key=中文名称，value=英文标识（避免中文编码问题）
+  class_dict:
+    你标注名称: 要识别名称
+    
+  # 是否删除临时文件（建议false，便于调试）
+  delete_temp_files: false
+  # 支持的图片格式
+  img_formats:
+  - .jpg
+  - .png
+  - .jpeg
+  # 随机种子（固定值保证训练可复现）
+  random_seed: 42
+  # 训练集/验证集划分比例
+  train_ratio: 0.8
+
+# ========================= 模型导出配置 =========================
+export:
+  # 导出后推理批次 | CPU推理建议=1 | 合理区间=1
+  batch: 1
+  # 推理设备 | CPU训练固定为cpu
+  device: cpu
+  # 推理图片尺寸 | 与训练尺寸保持一致 | 合理区间=480-800
+  imgsz: 640
+  # 模型类型 | 检测任务固定为detect
+  mode: detect
+  # 是否切片导出 | CPU推理建议false
+  slice: false
+
+# ========================= 模型命名配置 =========================
+model_naming:
+  model_name: '123'
+  model_version: v1.0.0
+
+# ========================= 路径配置 =========================
+paths:
+  # 模型导出保存路径
+  export_save_path: '{root_path}/runs/export/{model_name}_{model_version}'
+  # 输出根目录
+  output_root: ./output
+  # 项目根路径
+  root_path: ./
+  # 原始数据集目录
+  target_scene_dir: ./dataset/123
+  # 训练集路径
+  train: C:\Users\user\Desktop\new_train\output\train
+  # 验证集路径
+  val: C:\Users\user\Desktop\new_train\output\val
+
+# ========================= 训练配置 =========================
+training:
+  # 训练批次 | 当前值=2 | 16GB内存合理区间=2-4 | 8GB内存=1-2
+  batch: 4
+  # 训练设备 | 仅CPU训练固定为cpu
+  device: cpu
+  # 训练轮数 | 当前值=50 | 合理区间=30-100（根据数据集大小调整）
+  epochs: 10
+  # 是否覆盖已有实验 | 建议true
+  exist_ok: true
+  # 训练图片尺寸 | 当前值=640 | 合理区间=480-800
+  imgsz: 640
+  # 初始学习率 | 当前值=0.01 | CPU训练建议=0.005-0.01 | 合理区间=0.001-0.02
+  learning_rate: 0.01
+  # 训练任务类型 | 检测任务固定为detect
+  mode: detect
+  # 预训练模型 | CPU训练建议yolov8n.pt（轻量化）| 可选：yolov8s.pt（精度高但速度慢）
+  model: yolov8n.pt
+  # 动量 | CPU训练建议=0.937 | 合理区间=0.9-0.95
+  momentum: 0.937
+  # 实验名称
+  name: temp
+  # 早停耐心值 | 当前值=50 | 合理区间=30-60（连续n轮精度不提升则停止）
+  patience: 50
+  # 训练结果保存根路径
+  project: runs/detect
+  # 模型保存周期 | 当前值=10 | 合理区间=5-20（每n轮保存一次）
+  save_period: 10
+  # 预热轮数 | 当前值=3 | 合理区间=2-5（学习率逐步提升的轮数）
+  warmup_epochs: 3
+  # 权重衰减 | 当前值=0.0005 | CPU训练建议固定值 | 合理区间=0.0001-0.001
+  weight_decay: 0.0005
+
+# ========================= 验证配置 =========================
+validation:
+  # 置信度阈值 | 当前值=0.25 | 合理区间=0.2-0.5
+  conf: 0.25
+  # IoU阈值 | 当前值=0.45 | 合理区间=0.4-0.6
+  iou: 0.45
+  # 是否生成验证图表 | 建议true
+  plots: true
+  # 是否保存验证结果为JSON | 建议true
+  save_json: true

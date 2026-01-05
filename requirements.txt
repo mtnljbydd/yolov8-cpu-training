@@ -1,0 +1,22 @@
+# YOLOv8核心依赖
+ultralytics>=8.0.0          # YOLOv8核心训练/推理库
+# 数据处理依赖
+labelme>=5.0.0              # LabelMe标注工具（解析JSON格式标注文件）
+numpy>=1.24.0               # 数值计算基础库
+opencv-python>=4.8.0        # 图像处理（读取/预处理/可视化）
+pillow>=9.0.0               # 图片格式解析补充
+# 配置解析依赖
+PyYAML>=6.0                 # 解析YAML配置文件（config.yaml/data.yaml）
+# 进度条与日志依赖
+tqdm>=4.67.0                # 通用进度条（可选，脚本已自定义进度条）
+# CPU加速依赖（Intel平台专属）
+openvino-dev[onnx,pytorch]>=2023.0.0  # Intel OpenVINO推理加速
+intel-extension-for-pytorch>=2.0.0     # Intel PyTorch扩展（CPU训练加速）
+# 基础工具依赖
+psutil>=5.9.0               # 监控CPU/内存使用（可选）
+matplotlib>=3.7.0           # 训练结果可视化（生成验证图表）
+seaborn>=0.12.0             # 混淆矩阵可视化（可选）
+# PyTorch核心依赖（适配CPU）
+torch>=2.0.0+cpu            # CPU版本PyTorch（避免自动安装CUDA版本）
+torchvision>=0.15.0+cpu     # 配套视觉库
+torchaudio>=2.0.0+cpu       # 音频库（可选，YOLO训练非必需）
