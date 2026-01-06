@@ -1,6 +1,5 @@
 # yolov8-cpu-training
-YOLOv8纯CPU训练解决方案，适配Intel CPU（如i5-1335U），包含环境验证、配置化训练、OpenVINO推理加速全流程
-<<<<<<< HEAD
+YOLOv8纯CPU训练解决方案，包含环境验证、配置化训练、OpenVINO推理加速全流程
 
 # YOLOv8 CPU训练环境验证脚本：专属部署指南与问题排查（详细版）
 
